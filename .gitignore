@@ -2,3 +2,5 @@
 *.pdf
 *.synctex.gz
 *.log
+hw2/libsvm-320
+hw2/splice*
