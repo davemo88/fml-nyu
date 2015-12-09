@@ -10,6 +10,12 @@
 
 \usepackage{fancyhdr}
 
+\usepackage{tikz}
+
+\usepackage{pgfplots}
+
+\usepackage{float}
+
 \pagestyle{fancy}
 \lhead{David Kasofsky - FML Fall 2015 HW 2}
 
@@ -120,7 +126,7 @@ v \cdot p_2\\
 v \cdot p_{d-1}\\
 \end{array}\\
 \right]
-)\\
+)\\\\\\
 =
 sign(
 \left[
@@ -141,7 +147,7 @@ v \cdot p_2\\
 .\\
 v \cdot p_{d-1}\\
 \end{array}
-\right])\\
+\right])\\\\\\
 = sign(||w||^2 v \cdot w)
 $\\
 which is the same sign given by $L$. We could do this in each case $L$ goes through $x_{m+1}$ but all subspaces obtained this way would be a rotations of each other, so it suffices to project onto a single subspace using projection matrix $P^*$. This is ok because rotation preserves the cosine similarity of vectors and therefore their signs with respect to a hyperplane. Thus for every $L$ which can be generated with a hyperplane through $x_{m+1}$, there is an LSL of the $m$ points in $d-1$ dimensions.
@@ -161,10 +167,162 @@ $\\
 %%Need to fill in combinatorial this but easy check out https://en.wikipedia.org/wiki/Binomial_coefficient#Recursive_formula
 %%works term by term
 \subsection{}
-For any function in $\mathcal{F}$, there is a corresponding vector defining a hyperplane through the origin. Thus $\Pi_{\mathcal{F}}(m)$ is equal to the number of linearly separable labelings of $m$ points in $p$ dimensions, i.e. $C(m,p)$. By the result of the previous question, we then have directly that $\Pi_{\mathcal{F}}(m)$, is $C(m,p) = 2\sum_{i=0}^{p-1}\binom{m-1}{i}$.
+For any function in $\mathcal{F}$, there is a corresponding vector defining a $p$-dimensional hyperplane through the origin. Thus $\Pi_{\mathcal{F}}(m)$ is equal to the number of linearly separable labelings of $m$ points in $p$ dimensions, i.e. $C(m,p)$. By the result of the previous question, we then have directly that $\Pi_{\mathcal{F}}(m)$, is $C(m,p) = 2\sum_{i=0}^{p-1}\binom{m-1}{i}$.
 \pagebreak
 
 \section{}
+
+\subsection{}
+
+\begin{figure}[H]
+\begin{tikzpicture}
+\pgfplotsset{
+	%scale only axis,
+	%scaled x ticks=base 10:3,
+	xmin=0.0, xmax=4000
+}
+
+\begin{axis}[
+axis y line*=left,
+xmode=log,
+log basis x={5},
+ymin=48, ymax=100,
+yticklabel style={/pgf/number format/fixed,
+	/pgf/number format/precision=3},
+xlabel=$C$,
+ylabel= Cross Validation Accuracy,
+]
+\addplot [mark=o, red] table [x=C, y=d1, col sep=comma] {polydata.csv};
+\addplot [mark=o, blue] table [x=C, y=d3, col sep=comma] {polydata.csv};
+\addplot [mark=o, green] table [x=C, y=d5, col sep=comma] {polydata.csv};
+\label{plot_one}
+\addlegendentry{degree 1}
+\addlegendentry{degree 3}
+\addlegendentry{degree 5}
+\end{axis}
+
+\end{tikzpicture}
+\label{fig:plot}
+\end{figure}
+
+\subsection{}
+
+Here we fixed $C=5$ since our best performing polynomial kernel had $d=3$ and $k=1$, i.e. $C = 5$.
+
+\begin{figure}[H]
+	\begin{tikzpicture}
+	\pgfplotsset{
+		%scale only axis,
+		%scaled x ticks=base 10:3,
+		xmin=0, xmax=6
+	}
+	
+	\begin{axis}[
+	axis y line*=left,
+	ymin=1000, ymax=2500,
+	yticklabel style={/pgf/number format/fixed,
+		/pgf/number format/precision=3},
+	xlabel=Degree,
+	ylabel=Avg. N. SV,
+	]
+	\addplot [mark=o, red] table [x=degree, y=avg_nSV, col sep=comma] {C_5.csv};
+	\label{plot_one}
+	\end{axis}
+	
+	\end{tikzpicture}
+	\label{fig:plot}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{tikzpicture}
+	\pgfplotsset{
+		%scale only axis,
+		%scaled x ticks=base 10:3,
+		xmin=0, xmax=6
+	}
+	
+	\begin{axis}[
+	axis y line*=left,
+	ymin=50, ymax=100,
+	yticklabel style={/pgf/number format/fixed,
+		/pgf/number format/precision=3},
+	xlabel=Degree,
+	ylabel=Accuracy,
+	]
+	\addplot [mark=o, red] table [x=degree, y=avg_CVA, col sep=comma] {C_5.csv};
+	\addplot [mark=o, blue] table [x=degree, y=test_accuracy, col sep=comma] {C_5.csv};
+	\label{plot_one}
+	\addlegendentry{Cross Validation}
+	\addlegendentry{Test}
+	\end{axis}
+	
+	\end{tikzpicture}
+	\label{fig:plot}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{tikzpicture}
+	\pgfplotsset{
+		%scale only axis,
+		%scaled x ticks=base 10:3,
+		xmin=0, xmax=6
+	}
+	
+	\begin{axis}[
+	axis y line*=left,
+	ymin=0, ymax=4,
+	yticklabel style={/pgf/number format/fixed,
+		/pgf/number format/precision=3},
+	xlabel=Degree,
+	ylabel=Soft Margin,
+	]
+	\addplot [mark=o, red] table [x=degree, y=soft_margin, col sep=comma] {C_5.csv};
+	\label{plot_one}
+	\end{axis}
+	
+	\end{tikzpicture}
+	\label{fig:plot}
+\end{figure}
+
+I only seemed to find one vector on the marginal hyperplanes but I'm pretty suspicious of that. Needed more time to investigate thoroughly.
+
+\subsection{}
+
+For the Gaussian kernel, the best $\sigma, C$ pair was $2^3, 5$. The soft margin was about $ 4.24$, which is considerably larger than the margin for the best polynomial kernel. The test accuracy is about $ 79\%$ which is slightly better than the best polynomial kernels.
+\begin{figure}[H]
+	\begin{tikzpicture}
+	\pgfplotsset{
+		%scale only axis,
+		%scaled x ticks=base 10:3,
+		xmin=0.0, xmax=4000
+	}
+	
+	\begin{axis}[
+	axis y line*=left,
+	xmode=log,
+	log basis x={5},
+	ymin=48, ymax=100,
+	yticklabel style={/pgf/number format/fixed,
+		/pgf/number format/precision=3},
+	xlabel=$C$,
+	ylabel= Cross Validation Accuracy,
+	]
+	\addplot [mark=o, red] table [x=C, y=g1, col sep=comma] {gaussdata.csv};
+	\addplot [mark=o, blue] table [x=C, y=g3, col sep=comma] {gaussdata.csv};
+	\addplot [mark=o, green] table [x=C, y=g5, col sep=comma] {gaussdata.csv};
+	\label{plot_one}
+	\addlegendentry{sigma $2^1$}
+	\addlegendentry{sigma $2^3$}
+	\addlegendentry{sigma $2^5$}
+	\end{axis}
+	
+	\end{tikzpicture}
+	\label{fig:plot}
+\end{figure}
+
+\subsection{}
+
+The cross validation accuracy is really bad, about $\sim 51\%$. I trained it for values of $C$ = $5^k$ for $k \in \lbrace -5, ..., +5\rbrace$ and it took forever and never did very well. Unsurprisingly, making the kernel more complex seems not to always be a good idea.
 
 \pagebreak
 
@@ -193,7 +351,7 @@ Thus $\cos(x_i^2-y_i^2)$ is a PDS kernel by explicit representation as an inner 
  
  \noindent is a PDS kernel by the product closure property of PDS kernels, as is:\\
  
- $\sum_{i}^{N} \cos^n(x_i^2-y_i^2)$\\
+ $\sum_{i=0}^{N} \cos^n(x_i^2-y_i^2)$\\
  
  \noindent by the sum closure property.
  

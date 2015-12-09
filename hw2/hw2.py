@@ -1,68 +1,111 @@
-#!/usr/bin/env/python
+#!/usr/bin/env python
 """
 
 """
 
+import csv
 from sys import path
-path.insert(0,'./libsvm-320/python/')
-## in ./libsvm-320/python/
+## what to do for mapreduce?
+path.insert(0,'/Users/davemo88/libsvm-320/python/')
 from svmutil import *
-from sklearn import svm, cross_validation
 import numpy as np
 
-def part_a():
+y, x = svm_read_problem('./splice_noise_train_scaled.txt')
 
-    y, x = svm_read_problem('./splice_noise_train_scaled.txt')
+y_test, x_test = svm_read_problem('./splice_noise_test_scaled.txt')
 
-    results = {}
-    for p in range(1,6,2):
-        results[p] = {}
-        for c in range(-5,6):
-            print 'training with polynomial kernel degree {} and c = 5^{}'.format(p,c)
-            c = 5 ** c
-            results[p][c] = svm_train(y,x,'-v 10 -t 1 -p {} -c {}'.format(p, c))
+def polynomial_kernels(output_filename='polydata.csv'):
 
-    return results
+    with open(output_filename, 'wb') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['C','d1','d3','d5'])
+        for k in range(-5,6):
+            C = 5 ** k
+            row = [C]
+            for d in range(1,6,2):
+                print 'training with polynomial kernel degree {} and C = 5^{}'.format(d,k)
+                row.append(svm_train(y,x,'-q -v 10 -t 1 -d {} -c {}'.format(d, C)))
+            writer.writerow(row)
 
-## save time
-part_a_results = \
-{1: {0.00032: 76.0421052631579,
-  0.0016: 77.05263157894737,
-  0.008: 79.15789473684211,
-  0.04: 77.43157894736842,
-  0.2: 74.10526315789474,
-  1: 70.86315789473684,
-  5: 69.38947368421053,
-  25: 70.02105263157895,
-  125: 69.6421052631579,
-  625: 69.47368421052632,
-  3125: 68.50526315789473},
- 3: {0.00032: 75.87368421052632,
-  0.0016: 77.38947368421053,
-  0.008: 79.2,
-  0.04: 77.85263157894737,
-  0.2: 73.26315789473684,
-  1: 71.66315789473684,
-  5: 69.81052631578947,
-  25: 68.50526315789473,
-  125: 68.8,
-  625: 69.26315789473684,
-  3125: 68.25263157894737},
- 5: {0.00032: 76.0,
-  0.0016: 77.30526315789474,
-  0.008: 78.90526315789474,
-  0.04: 78.10526315789474,
-  0.2: 73.22105263157894,
-  1: 70.82105263157895,
-  5: 69.72631578947369,
-  25: 68.29473684210527,
-  125: 68.63157894736842,
-  625: 69.05263157894737,
-  3125: 68.88421052631578}}
+def get_poly_model(p, C):
 
-def sk_part_a():
+    return svm_train(y,x,'-q -t 1 -p {} -c {}'.format(p, C))
 
-    y, x = svm_read_problem('./splice_noise_train_scaled.txt')
+def gaussian_kernels(output_filename='gaussdata.csv'):
+
+    with open(output_filename, 'wb') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['C','g1','g3','g5'])
+        for k in range(-5,6):
+            C = 5 ** k
+            row = [C]
+            for p in range(1,7,2):
+                g = 1.0/(2 ** (p * 2 + 1))
+                print 'training with gaussian kernel with sig 2^{} and C = 5^{}'.format(p,k)
+                row.append(svm_train(y,x,'-q -v 10 -t 2 -g {} -c {}'.format(g, C)))
+            writer.writerow(row)
+
+def get_polygauss_kernel(degree=3, gamma=0.0078125):
+
+    k = np.empty((len(x), len(x)))
+
+    for i in range(len(x)):
+        for j in range(len(x)):
+
+            u = np.array(x[i].values())
+
+            v = np.array(x[j].values()) 
+
+            k[i][j] = np.exp(-gamma * (np.linalg.norm(u-v)**2)) + (np.dot(u,v)**degree)
+
+    return k
+
+def get_margin(w,rho,svs):
+
+    return max([abs(_) for _ in map(lambda v: np.dot(w, v) + rho, svs)])
+
+def get_correctly_classified_vectors(y,x,w,rho):
+
+    ccvs = []
+
+    for i in range(len(x)):
+
+        if predict_with_w(w,rho,x[i].values()) == y[i]:
+
+            ccvs.append(x)
+
+    return ccvs
+
+def predict_with_w(w,rho,example):
+
+    return np.sign(np.dot(w,np.array(example)) + rho)
+    
+def get_w_and_rho(model):
+
+    coef = np.array([_[0] for _ in model.get_sv_coef()])
+
+    svs = np.array(clean_sv(model.get_SV()))
+
+    w = np.dot(np.transpose(svs), coef)
+
+## normalize w
+    w = w / np.linalg.norm(w)
+
+    return w, -model.rho.contents.value
+
+def clean_sv(support_vectors):
+
+    svs = []
+
+    for sv in support_vectors:
+## not sure what key -1 is
+        sv.pop(-1)
+        svs.append(sv.values())
+
+    return svs
+
+def sk_polynomial_kernels():
+
     y = np.array(y)
     x = np.array([_.values() for _ in x])
 
@@ -93,26 +136,6 @@ def sk_part_a():
 
     return results
 
-
-def part_b():
-
-    y, x = svm_read_problem('./splice_noise_train.txt')
-
-    results = {}
-    for g in range(1,6,2):
-        results[g] = {}
-        for c in range(-5,6):
-            print 'training with gaussian kernel with gamma 2^{} and c = 5^{}'.format(g,c)
-            c = 5 ** c
-            g = 2 ** g
-            results[g][c] = svm_train(y,x,'-q -v 10 -t 2 -g {} -c {}'.format(g, c))
-
-    return results
-
-def plot_results(results):
+if __name__ == '__main__':
 
     pass
-
-if __name__ == 'main':
-
-    part_a()

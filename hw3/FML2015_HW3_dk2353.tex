@@ -1,0 +1,143 @@
+\documentclass[]{article}
+
+%opening
+\title{FML Fall 2015 HW 2}
+\author{David Kasofsky}
+
+\usepackage{amsmath}
+
+\usepackage{amssymb}
+
+\usepackage{fancyhdr}
+
+\usepackage{tikz}
+
+\usepackage{pgfplots}
+
+\usepackage{float}
+
+\usepackage[]{algorithm2e} 
+
+\pagestyle{fancy}
+\lhead{David Kasofsky - FML Fall 2015 HW 2}
+
+\renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\thesubsubsection}{\Alph{subsubsection}}
+
+\begin{document}
+
+\section{}
+\subsection{}
+
+Let $u \in \mathbb{R}$, $p \in \mathbb{Z} \land p > 1$, and $\Phi(u)_p = \max((1+u)^p, 0)$. To see $\Phi_p(-u)$ is an upper bound on the zero-one loss, consider the following cases:
+
+\begin{itemize}
+\item $u > 0 \implies 1_{u \le 0} = 0 \le \Phi_p(-u)$.
+\item $u \le 0 \implies 1_{u \le 0} = 1 \le \Phi_p(-u)$ since $u \le 0 \implies 1 \le (1-u)^p$.
+\end{itemize}
+
+\noindent Both $(1-u)^p$ and 0 are continuously differentiable and have the same differential value, 0, at $u = 1$ and so $\Phi_p$ is continuously differentiable. If $p$ is even, then $\Phi_p^{\prime \prime}(-u)$ is always positive and so $\Phi_p$ is convex. If $p$ is odd and $u \ge 1$, then $\Phi_p^{\prime \prime}(-u) = 0$ and so is non-negative. If $p$ is odd and $u < 1$, then $\Phi_p^{\prime \prime}(-u) $
+
+\begin{itemize}
+	\item $p$ even $\implies \forall u \in \mathbb{R}: 0 \le (1-u)^p = \Phi_p(-u)$, which is infinitely differentiable. Furthermore the second derivative is always non-negative, which if also true for odd $p$ will show that $\Phi(-u)_p$ is convex for any $p$.
+	\item $p$ odd $\land u > 1 \implies \Phi_p(-u) = (1- u)^p < 0$ and so $\Phi_p(-u) = 0$, which is infinitely differentiable with non-negative second derivative.
+	\item $p$ odd $\land u < 1 \implies 0 < \Phi_p(-u) = (1-u)^p$, which is infinitely differentiable with non-negative second derivative.
+	\item $p$ odd $\land u = 1$. First note that left and right limits of $\Phi_p(-1)$ are both 0. The left and right derivatives are also both 0 and so $\Phi_p^\prime(-1)$ = 0:
+	\subitem $\underset{h \Rightarrow 0^-}{lim}\frac{0 - 0}{h} = 0$
+	\subitem$ \underset{h \Rightarrow 0^+}{lim}\frac{h^p - 0}{h} = 0$ since $p \ge 3$.\\
+	Furthermore the second derivative exists and is non-negative.
+\end{itemize}
+\noindent Thus we have the $\Phi_p(-u)$ is twice differentiable and convex for all $p$ as the second derivative is always non-negative. Also note that $\Phi_p^\prime(-u) \le 0$ for all $u$.	
+
+\subsection{}
+
+Let $F(\boldsymbol{\alpha_n}) = \sum_{i=1}^{m} \Phi(-y_i g_n(x_i))$, where $g_n(x_i) = \sum_{t=1}^{n} \alpha_t h_t(x_i)$. Let $D_1(i) = \frac{1}{m}$ for all $i$ and $D_t(i) = \frac{\Phi_p^\prime(-y_i g_{t-1}(x_i))}{\sum_{i=1}^{m}\Phi_p^\prime(-y_i g_{t-1}(x_i))}$. Consider $\boldsymbol{e}_t = \underset{t}{\text{argmin}} \frac{d F(\boldsymbol{\alpha}_{t-1}+\eta \boldsymbol{e}_t)}{d \eta}$. Now we can say:\\
+
+\noindent $\frac{d F(\boldsymbol{\alpha}_{t-1}+\eta \boldsymbol{e}_t)}{d \eta} |_{\eta=0} = \sum_{i=1}^{m} p y_i h_t(x_i)\Phi_p^\prime(-y_i \sum_{s=1}^{t-1}\alpha_s h_s(x_i))$\\\\
+$= \sum_{i=1}^{m} p y_i h_t(x_i) D_t(i)\lbrack\sum_{i=1}^{m}\Phi_p^\prime(-y_i g_{t-1}(x_i))\rbrack$\\\\
+$= p \lbrack \sum_{i:correct} y_i h_t(x_i) D_t(i) - \sum_{i:incorrect} y_i h_t(x_i) D_t(i) \rbrack \lbrack\sum_{i=1}^{m}\Phi_p^\prime(-y_i g_{t-1}(x_i))\rbrack$\\\\1
+$= p (1 - 2 \epsilon_t) \lbrack\sum_{i=1}^{m}\Phi_p^\prime(-y_i g_{t-1}(x_i))\rbrack$\\\\
+\noindent and so we see that the direction chosen by coordinate descent corresponds with the hypothesis that minimizes the weighted error $\epsilon_t$.
+
+To find the step size, we want to find $\eta$ such that:\\
+$\frac{d F(\boldsymbol{\alpha}_{t-1}+\eta \boldsymbol{e}_t)}{d \eta} = 0 \iff \sum_{i=1}^{m} p y_i h_t(x_i)\Phi_p^\prime(-y_i g_{t-1}(x_i) - \eta y_i h_t(x_i)) = 0$\\
+
+Following the solution of a previous homework assignment, let\\ $J(\eta) = \lbrace i: y_i g_{t-1}(x_i) + \eta y_i h_t(x_i) < 1 \rbrace$. We can then express the condition as:\\\\
+$\frac{d F(\boldsymbol{\alpha}_{t-1}+\eta \boldsymbol{e}_t)}{d \eta} = 0 \iff \sum_{i \in J(\eta)} p y_i h_t(x_i)(1 - y_i g_{t-1}(x_i) - \eta y_i h_t(x_i))^{p-1} = 0$\\
+There is no closed form solution for $\eta$ and so we could use line search to find the best value.
+
+\pagebreak
+
+\section{}
+\subsection{}
+
+First, note that $E\lbrack \underset{x \sim S}{E}\lbrack \Phi(x_i) \rbrack \rbrack = \underset{x \sim D}{E}\lbrack \Phi(x_i) \rbrack$. By the triangle inequality we have:\\
+
+$\vert \vert \underset{x \sim D}{E}[\Phi(x)] - \underset{x \sim S}{E}[\Phi(x)]\vert \vert_2 \le \vert \vert \underset{x \sim D}{E}[\Phi(x)]\vert \vert_2 - \vert \vert \underset{x \sim S}{E}[\Phi(x)]\vert \vert_2$\\
+
+\noindent Because $\forall x: \vert \vert\Phi(x)\vert \vert_2 \le r$, the quantity $\vert \vert \underset{x \sim D}{E}[\Phi(x)] - \underset{x \sim S}{E}[\Phi(x)]\vert \vert_2 \le \frac{r}{m}$ and so the requisite condition for applying McDiarmid's inequality holds. Now let $\epsilon = \sqrt{\frac{2r^2}{m}}(1+\sqrt{\log \frac{1}{\delta}})$. By McDiarmid's Inequality we have that :\\
+
+$Pr( \vert \vert \underset{x \sim D}{E}[\Phi(x)]\vert \vert_2 - \vert \vert \underset{x \sim S}{E}[\Phi(x)]\vert \vert_2 < \epsilon)) \le 2 \exp(\frac{- 2 \frac{2r^2}{m}(1+\sqrt{\log \frac{1}{\delta}})^2}{\frac{r^2}{m}})$\\\\
+
+$= 2 \exp(- 4 (1+\sqrt{\log \frac{1}{\delta}})^2) = 2 \exp(- 4 - 8\sqrt{\log\frac{1}{\delta}} + 4\log\frac{1}{\delta})$\\\\
+
+$= 2 \exp(-4)\exp(2\sqrt{\log\frac{1}{\delta}})^{-4}\delta^4 < \delta$\\
+
+\noindent since $\delta < 1$ and $2 \exp(-4)\exp(2\sqrt{\log\frac{1}{\delta}})^{-4} < 1$.
+
+\subsection{}
+
+First, note that:\\
+$\triangledown J_s(w) = \frac{\lambda w}{\vert \vert W \vert \vert_2} - \frac{1}{m}\sum_{i=1}^{m} \frac{1}{p_w(x)} \triangledown p_w(x)$\\\\
+and $\triangledown p_w(x) = -\Phi(x)(1-p_w(x))$.
+
+\pagebreak
+
+\section{}
+\subsection{}
+Halving(H)\\
+1. $ H_1 = H$\\
+2. for $t = 1$ to $T$:\\
+3. \indent Receive($x_t$)\\
+4. \indent $p_t = \lbrack \frac{1}{2} \log_2 \frac{1}{1-r_t}\rbrack 1_{r_t \le \frac{3}{4}} + 1_{r_t > \frac{3}{4}}$\\
+5. \indent $\hat{y_t} = 1$ with probability $p_t$ else 0\\
+6. \indent Receive($y_t$)\\
+7. \indent $H_{t+1} = \lbrace {h \in H_t : h(x_t) = y_t} \rbrace $\\
+8. return $H_{t+1}$
+
+\subsection{}
+
+Let $c_t$ be the fraction of experts predicting correctly at step $t$.\\
+Note $\frac{\Phi_t - \Phi_{t+1})}{2} = \frac{\log_2(\frac{1}{c_t})}{2}$ because:\\
+
+$\Phi_t - \Phi_{t+1} = \log_2 \vert H_t \vert - \log_2 \vert H_{t+1} \vert = \log_2 \vert H_t \vert - \log_2 \vert c_t H_{t} \vert = \log_2(\frac{1}{c_t})$.\\
+
+\noindent Now consider $E(\mu_t)$:\\
+
+$E(\mu_t) = P(y_t = 0) P(\hat{y}_t = 1 \vert y_t = 0) + P(y_t = 1) P(\hat{y}_t = 0 \vert y_t = 1)$\\
+
+$\le \max(P(\hat{y}_t = 1 \vert y_t = 0), P(\hat{y}_t = 0 \vert y_t = 1))$ \\
+
+\noindent When $y_t = 0$, $r_t = 1 - c_t$ and when $y_t = 1$, $r_t = c_t$. So the previous expression is equal to:\\
+
+$\max(\lbrack \frac{1}{2} \log_2 \frac{1}{c_t} \rbrack 1_{1-c_t \le \frac{3}{4}} + 1_{1-c_t > \frac{3}{4}}, 1 - (\lbrack \frac{1}{2} \log_2 \frac{1}{1-c_t} \rbrack 1_{c_t \le \frac{3}{4}} + 1_{c_t > \frac{3}{4}}))$.\\
+
+\noindent Now we must consider the following cases:
+\begin{itemize}
+	\item $c_t < \frac{1}{4}$. Then $E(\mu_t) \le 1 = \frac{\log_2(4)}{2} < \frac{\log_2(\frac{1}{c_t})}{2}$.
+	\item $c_t > \frac{3}{4}$. Then $E(\mu_t) \le \frac{\log_2(\frac{1}{c_t})}{2}$ because we have that $1 - c_t \le \frac{3}{4}$ and so we are using the first term of the first argument to $\max$. The second argument to $\max$ is 0 in this case.
+	\item $\frac{1}{4} \le c_t \le \frac{3}{4}$. Then $E(\mu_t) \le \frac{\log_2(\frac{1}{c_t})}{2}$ because we must compare the first term in each argument to $\max$ and $1 - \frac{1}{2} \log_2 \frac{1}{1-c_t} \le \frac{1}{2} \log_2 \frac{1}{c_t}$ on the interval in question.
+	
+\end{itemize}
+
+\subsection{}
+
+The expected number of mistakes is equal to $\sum_{t=1}^{T} E(\mu_t)$. By the previous question we have:
+
+$\sum_{t=1}^{T} E(\mu_t) \le \frac{1}{2} \sum_{t=1}^{T} \Phi_t - \Phi_{t+1} = \frac{1}{2} (\Phi_1 - \Phi_{T+1}) \le \frac{1}{2}(\log_2(N) - 0)$\\
+
+$ = \frac{1}{2} \log_2(N)$.
+
+\subsection{}
+
+\end{document}
