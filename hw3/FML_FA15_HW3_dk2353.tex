@@ -19,7 +19,7 @@
 \usepackage[]{algorithm2e} 
 
 \pagestyle{fancy}
-\lhead{David Kasofsky - FML Fall 2015 HW 2}
+\lhead{David Kasofsky - FML Fall 2015 HW 3}
 
 \renewcommand{\thesection}{\Alph{section}}
 \renewcommand{\thesubsubsection}{\Alph{subsubsection}}
@@ -53,7 +53,7 @@ Thus we have the $\Phi_p(-u)$ is twice differentiable and convex for all $u, p$ 
 6. \indent $\alpha_t$ = line search $\sum_{i \in J(\alpha)} p y_i h_t(x_i)(1 - y_i g_{t-1}(x_i) - \alpha y_i h_t(x_i))^{p-1}$\\
 7. \indent $Z_t = \sum_{i=1}^{m}\Phi_p^\prime(-y_i g_{t-1}(x_i))$\\
 8. \indent for $i =1$ to $m$:\\
-9. \indent \indent $D_{t+1} = \frac{\Phi_p^\prime(-y_i g_{t-1}(x_i))}{\sum_{i=1}^{m}\Phi_p^\prime(-y_i g_{t-1}(x_i))}$\\
+9. \indent \indent $D_{t+1}(i) = \frac{\Phi_p^\prime(-y_i g_{t-1}(x_i))}{Z_t}$\\
 10. $g = \sum_{t=1}^{T} \alpha_t h_t$\\
 11. return $h = sign(g)$\\
 
@@ -135,11 +135,11 @@ $\le \frac{\vert \vert \underset{x \sim S}{E} \lbrack \Phi(x) \rbrack - \underse
 
 \subsection{}
 
-First, $\mathcal{L}_D(\hat{w}) - \mathcal{L}_D({w_D}) = \underset{x \sim D}{E}\lbrack \log \frac{p_{w_D}(x)}{p_{\hat{w}}(x)} \rbrack$ by the definition of cross entropy and Kullback-Leibler divergence.
+First, $\mathcal{L}_D(\hat{w}) - \mathcal{L}_D({w_D}) = \underset{x \sim D}{E}\lbrack \log \frac{p_{w_D}(x)}{p_{\hat{w}}(x)} \rbrack$ by the definition of cross entropy and Kullback-Leibler divergence. Heh heh I ran out of time. 
 	
 \subsection{}
 
-First, note that\\
+First, note that:\\
 
 $(\hat{w} -w_d) \cdot \lbrack \underset{x \sim D}{E}[\Phi(x)] - \underset{x \sim S}{E}[\Phi(x)] \rbrack \le \frac{\vert \vert \underset{x \sim D}{E}[\Phi(x)] - \underset{x \sim S}{E}[\Phi(x)]\vert \vert_2^2}{\lambda}$
 

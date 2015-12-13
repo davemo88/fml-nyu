@@ -1,0 +1,90 @@
+<html>
+<head>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+
+var poly_data = 
+[{'C': 0.00032, 'accuracy': 50.94736842105263, 'degree': 1},
+ {'C': 0.0016, 'accuracy': 50.94736842105263, 'degree': 1},
+ {'C': 0.008, 'accuracy': 50.94736842105263, 'degree': 1},
+ {'C': 0.04, 'accuracy': 50.94736842105263, 'degree': 1},
+ {'C': 0.2, 'accuracy': 50.94736842105263, 'degree': 1},
+ {'C': 1, 'accuracy': 62.98947368421052, 'degree': 1},
+ {'C': 5, 'accuracy': 76.71578947368421, 'degree': 1},
+ {'C': 25, 'accuracy': 74.4421052631579, 'degree': 1},
+ {'C': 125, 'accuracy': 74.3157894736842, 'degree': 1},
+ {'C': 625, 'accuracy': 73.01052631578948, 'degree': 1},
+ {'C': 3125, 'accuracy': 73.01052631578948, 'degree': 1},
+ {'C': 0.00032, 'accuracy': 50.94736842105263, 'degree': 3},
+ {'C': 0.0016, 'accuracy': 50.94736842105263, 'degree': 3},
+ {'C': 0.008, 'accuracy': 50.94736842105263, 'degree': 3},
+ {'C': 0.04, 'accuracy': 50.94736842105263, 'degree': 3},
+ {'C': 0.2, 'accuracy': 50.94736842105263, 'degree': 3},
+ {'C': 1, 'accuracy': 62.48421052631579, 'degree': 3},
+ {'C': 5, 'accuracy': 76.37894736842105, 'degree': 3},
+ {'C': 25, 'accuracy': 73.81052631578947, 'degree': 3},
+ {'C': 125, 'accuracy': 74.77894736842106, 'degree': 3},
+ {'C': 625, 'accuracy': 73.97894736842105, 'degree': 3},
+ {'C': 3125, 'accuracy': 72.96842105263158, 'degree': 3},
+ {'C': 0.00032, 'accuracy': 50.94736842105263, 'degree': 5},
+ {'C': 0.0016, 'accuracy': 50.94736842105263, 'degree': 5},
+ {'C': 0.008, 'accuracy': 50.94736842105263, 'degree': 5},
+ {'C': 0.04, 'accuracy': 50.94736842105263, 'degree': 5},
+ {'C': 0.2, 'accuracy': 50.94736842105263, 'degree': 5},
+ {'C': 1, 'accuracy': 63.03157894736842, 'degree': 5},
+ {'C': 5, 'accuracy': 76.67368421052632, 'degree': 5},
+ {'C': 25, 'accuracy': 74.73684210526316, 'degree': 5},
+ {'C': 125, 'accuracy': 74.4421052631579, 'degree': 5},
+ {'C': 625, 'accuracy': 72.50526315789473, 'degree': 5},
+ {'C': 3125, 'accuracy': 73.09473684210526, 'degree': 5}];
+
+var w = 600,
+    h = 300,
+    margin = 40,
+    x = d3.scale.log().domain([d3.min(poly_data,
+                                         function(d){ return d.C}),
+                               d3.max(poly_data,
+                                      function(d){ return d.C})])
+                         .range([0 + margin, w - margin]).
+                         base(5)
+                         .nice(),
+    y = d3.scale.linear().domain([d3.min(poly_data,
+                                         function(d){ return d.accuracy}), 
+                                  d3.max(poly_data,
+                                         function(d){ return d.accuracy})])
+                         .range([h - margin, margin]);
+
+var x_axis = d3.svg.axis().scale(x);
+var y_axis = d3.svg.axis().scale(y).orient('left');
+
+var vis = d3.select("body")
+    .append("svg:svg")
+    .attr("width", w)
+    .attr("height", h)
+ 
+vis.append("svg:g")
+   .attr("class", "x-axis")
+   .attr("transform", "translate(0, "+ (h-margin) +")")
+   .call(x_axis);
+
+vis.append("svg:g")
+   .attr("class", "y-axis")
+   .attr("transform", "translate("+ margin +", 0)")
+   .call(y_axis);
+
+var lineFunc = d3.svg.line()
+    .x(function(d) { return x(d.C); })
+    .y(function(d) { return y(d.Accuracy); }).
+    interpolate('linear');
+
+vis.append('svg:path')
+  .attr('d', lineFunc(poly_data))
+  .attr('stroke', 'blue')
+  .attr('stroke-width', 2)
+  .attr('fill', 'none');
+</script>
+
+</html>
