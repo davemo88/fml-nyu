@@ -1,12 +1,9 @@
 
-\documentclass{article}
+\documentclass{beamer}
 
 \usepackage[utf8]{inputenc}
 
 \usepackage[T1]{fontenc}
-
-\usepackage{geometry}
-\geometry{a4paper}
 
 \usepackage{float}
 \restylefloat{table}
@@ -24,61 +21,71 @@
 
 \begin{document}
 
-\newpage
-
 \section{Complexity as Bounded Rationality}
 
-\subsection{Nash Equilibrium}
+\begin{frame}
+	\frametitle{Nash Equilibrium}
+	Let $G$ be a game with $K$ players. For each player $k$ we have
+	\begin{itemize}
+		\item action set $A_k$ of actions available to $k$
+		\item strategy set $\Delta(A_k)$ of distributions over actions in $A_k$.
+		\item payoff function $\mu_k: \Pi_{i=1}^K A_i \longrightarrow \mathbb{R}$
+		\begin{itemize}
+			\item payoffs for mixed strategy $p_k$: $\underset{a_k \sim p_k}{E}\lbrack \mu_k(\textbf{a}) \rbrack$
+		\end{itemize}
+	\end{itemize}
 	
-\noindent Let $G$ be a game with $K$ players. For each player $k$ we have
-\begin{itemize}
-	\item action set $A_k$ of actions available to $k$
-	\item strategy set $\Delta(A_k)$ of distributions over the actions in $A_k$.
-	\item payoff function $\mu_k: \Pi_{i=1}^K A_i \longrightarrow \mathbb{R}$
-\end{itemize}
+	A Nash Equilibrium $S$ is a strategy assignment $(p_1,..., p_k)$ such that for each player $k$:
+	\begin{equation}
+	\forall q \in \Delta(A_k): \mu_k(p_k, S_{-k}) \ge \mu_k(q, S_{-k})
+	\end{equation}
+	
+\end{frame}
 
-\noindent A Nash Equilibrium $S$ is a strategy assignment $(p_1,..., p_k)$ such that for each player $k$:
-\begin{equation}
-\forall q \in \Delta(A_k): \mu_k(p_k, S_{-k}) \ge \mu_k(q, S_{-k})
-\end{equation}
+\begin{frame}
+	\frametitle{$n$-round Prisoner's Dilemma}
+	\begin{table}[H]
+		\centering
+		\label{pdpayoffs}
+		\begin{tabular}{lll}
+			& C                        & D                        \\ \cline{2-3} 
+			\multicolumn{1}{l|}{C} & \multicolumn{1}{l|}{3,3} & \multicolumn{1}{l|}{0,4} \\ \cline{2-3} 
+			\multicolumn{1}{l|}{D} & \multicolumn{1}{l|}{4,0} & \multicolumn{1}{l|}{1,1} \\ \cline{2-3} 
+		\end{tabular}
+	\end{table}
+	
+	\begin{itemize}
+		\item The elements of the action set $A^n_k$ are of the form $\lbrace C,D \rbrace^n$
+		\item Backwards induction shows the only Nash equilbrium is $(D^n, D^n)$
+	\end{itemize}
+\end{frame}
 
-\newpage
+\begin{frame}
+	\frametitle{Questions}
+		\begin{itemize}
+			\item How can we quantify strategic complexity?
+			\item Can we avoid the $(D^n, D^n)$ equilibrium by limiting strategic complexity?
+			\item Will players use far more complex strategies for only marginally greater payoffs?
+		\end{itemize}
+\end{frame}
 
-\subsection {Prisoner's Dilemma}
+\begin{frame}
+	\frametitle{Bounded Rationality}
+	The complexity of a strategy can be quantified by the number of states required by a finite automaton which implements the strategy, e.g.:
+	
+	\includegraphics[scale=0.5]{tit4tat}
+	
+	% for instance: an automaton with less than $n$ states can't count down from $n$ and so our backwards induction argument doesn't work. in fact two automatons with less than $n$ states are in equilbrium each playing tit4tat
+	
+	\noindent \textbf{Theorem:} Let $\epsilon > 0$ and $G$ an $n$-round Prisoner's Dilemma played by automata. If one of the automata has less than $2^{c_\epsilon n}$ states, then there is a mixed equilibrium with expected payoff for each player at least 3 - $\epsilon$.
+	
+	% theorem 1 is surprising because there are many more states than rounds and so backwards induction seems to be enabled. furthermore one player may have a arbitrarily larger automata than the other
+	
+	% should also mention implementation vs selection complexity
+\end{frame}
 
-\begin{table}[H]
-	\centering
-	\caption{Prisoner's Dilemma}
-	\label{pdpayoffs}
-	\begin{tabular}{lll}
-		& C                        & D                        \\ \cline{2-3} 
-		\multicolumn{1}{l|}{C} & \multicolumn{1}{l|}{3,3} & \multicolumn{1}{l|}{0,4} \\ \cline{2-3} 
-		\multicolumn{1}{l|}{D} & \multicolumn{1}{l|}{4,0} & \multicolumn{1}{l|}{1,1} \\ \cline{2-3} 
-	\end{tabular}
-\end{table}
+\section{Rational Learning Leads to Nash Equilibrium}
 
-\begin{itemize}
-	\item Consider the $n$-round prisoners dilemma.
-	\item The action set $A_n$ for each player is now of the form $\Pi_{i=1}^n A$, where $A = \lbrace C,D \rbrace $, and so $|A_n| = 2^n$.
-	\item if $n =1$, the only Nash equilibrium is $(D,D)$
-	\item if $1 < n < +\infty$, using backwards induction shows the only Nash equilbrium is $(D^n, D^n)$
-\end{itemize}
-
-\subsection{Questions}
-
-\noindent Question: how can we quantify the complexity of strategies?\\\\
-\noindent Question: is it reasonable to assume that players will use far more complex strategies in lieu of simpler ones to achiev\textsl{}e marginally greater payoffs?
-
-\newpage
-
-\subsection{Bounded Rationality}
-
-The complexity of a strategy can be quantified by the number of states required by a finite automaton which implements the strategy, e.g.:
-
-\includegraphics[scale=0.5]{tit4tat}
-
-\noindent restrict the complexity of strategies $\implies$ restrict the number of states in the automata\\\textsl{\textsl{}}
-
-\noindent For instance: an automata with less than $n$ states cannot count up to $n$ and so our backwards induction argument would no longer be valid
+\subsection{}
 
 \end{document}
