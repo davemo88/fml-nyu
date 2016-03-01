@@ -21,7 +21,9 @@
 
 \begin{document}
 
-\section{Complexity as Bounded Rationality}
+\begin{frame}
+	
+\end{frame}
 
 \begin{frame}
 	\frametitle{Nash Equilibrium}
@@ -31,11 +33,11 @@
 		\item strategy set $\Delta(A_k)$ of distributions over actions in $A_k$.
 		\item payoff function $\mu_k: \Pi_{i=1}^K A_i \longrightarrow \mathbb{R}$
 		\begin{itemize}
-			\item payoffs for mixed strategy $p_k$: $\underset{a_k \sim p_k}{E}\lbrack \mu_k(\textbf{a}) \rbrack$
+			\item payoffs for mixed strategy $p_k \in \Delta(A_k)$: $\underset{a_k \sim p_k}{E}\lbrack \mu_k(\textbf{a}) \rbrack$
 		\end{itemize}
 	\end{itemize}
 	
-	A Nash Equilibrium $S$ is a strategy assignment $(p_1,..., p_k)$ such that for each player $k$:
+	A \textbf{Nash Equilibrium} $S$ is a strategy assignment $(p_1,..., p_K)$ such that for each player $k$:
 	\begin{equation}
 	\forall q \in \Delta(A_k): \mu_k(p_k, S_{-k}) \ge \mu_k(q, S_{-k})
 	\end{equation}
@@ -58,6 +60,9 @@
 		\item The elements of the action set $A^n_k$ are of the form $\lbrace C,D \rbrace^n$
 		\item Backwards induction shows the only Nash equilbrium is $(D^n, D^n)$
 	\end{itemize}
+	
+	% go through backwards induction argument
+	
 \end{frame}
 
 \begin{frame}
@@ -71,7 +76,7 @@
 
 \begin{frame}
 	\frametitle{Bounded Rationality}
-	The complexity of a strategy can be quantified by the number of states required by a finite automaton which implements the strategy, e.g.:
+	\textbf{implementation complexity}: the number of states required by a finite automaton which implements the strategy	
 	
 	\includegraphics[scale=0.5]{tit4tat}
 	
@@ -86,6 +91,8 @@
 
 \section{Rational Learning Leads to Nash Equilibrium}
 
-\subsection{}
+\begin{frame}
+	
+\end{frame}
 
 \end{document}
