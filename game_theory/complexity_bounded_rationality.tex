@@ -28,6 +28,7 @@
 		\item How can we apply complexity in game theory?
 		\item Prisoner's Dilemma
 		\item Bounded Rationality
+		\item General Complexity Result for Games
 	\end{itemize}
 	
 \end{frame}
@@ -65,7 +66,7 @@
 	
 	\begin{itemize}
 		\item $A^n_k$ = $\lbrack \text{CD} \rbrack \lbrace n \rbrace$.
-		\item Backwards induction shows the only Nash equilbrium is $(D^n, D^n)$
+		\item only Nash equilbrium is $(D^n, D^n)$ via backwards induction
 	\end{itemize}
 	
 	% go through backwards induction argument
@@ -106,14 +107,15 @@
 	\textbf{Lemma}: If both players have automata with size at least $2^n$ then the only equilibrium is $(D^n, D^n)$.
 	
 	\begin{itemize}
-		\item prove the inverse, i.e. if at least one play has a sub-exponential automata, then collaboration is possible
+		\item prove the inverse: if at least one player is limited to sub-exponential automata, then \textbf{a mostly collaborative equilibrium is possible}
 		\item construct such an equilibrium:
 		\begin{itemize}
 			\item define mixed strategies for each player
 			\item the automata with size $2^{c_\epsilon n}$ must have its states fully utilized
-			\item $\implies$ a multi-phase strategy for each player
 		\end{itemize}
 	\end{itemize}
+	
+	$\implies$ construct a multi-phase mixed strategy for each player
 	
 	% this result is then generalized in several ways
 	% to players who both have bounded automata
@@ -121,9 +123,30 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{General Complexity Theorem}
-	
+	\frametitle{General Complexity Results}
+	\begin{itemize}
+		\item best response:
+		%pick the best strategy for player 2 when player 1 plays x
+		\begin{itemize}
+			\item NP
+		\end{itemize}
+		\item existence of pure equilibrium:
+		% does the game have a pure strategy equilibrium
+		\begin{itemize}
+			\item $S_2P$
+		\end{itemize}
+		\item feasible payoffs in mixed equilibrium of zero sum games
+		% can a certain payoff be achieved in equilibrium for a zero sum game
+		\begin{itemize}
+			\item EXP
+		\end{itemize}
+		\item feasible payoffs in mixed equilibrium of general games
+		% can a certain payoff be achieved in equilibrium for a general game
+		\begin{itemize}
+			\item NEXP
+		\end{itemize}
+	\end{itemize}
 	
 \end{frame}
-
+	
 \end{document}

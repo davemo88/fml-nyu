@@ -1,0 +1,88 @@
+\documentclass[]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{geometry}
+\geometry{a4paper}
+
+\usepackage{float}
+\restylefloat{table}
+
+\usepackage[english]{babel}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\usepackage{bm}
+
+\usepackage{tikz}
+\usetikzlibrary{trees}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%opening
+\title{}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\section{}
+
+We first apply corollary 1 to find:
+\begin{equation}
+	R(f_{VRM}) \le \hat{R}_{S,\rho}\left(f_{VRM}\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{2}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{\log \frac{2}{\delta}}{2m}}
+\end{equation}
+We then apply corollary 2 and simplify:
+\begin{equation}
+	R(f_{VRM}) \le R_\rho\left(f_{VRM}\right) + \frac{8}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{4}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{2\log \frac{2}{\delta}}{m}}
+\end{equation}
+
+\noindent Recall that $f_{VRM} = \underset{f \in \mathcal{F}}{\text{argmin }} \hat{R}_{S,\rho}\left(f_{VRM}\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right)$ and so the bound in question:
+
+\begin{equation}
+	R(f_{VRM}) \le \underset{f \in \mathcal{F}}{\text{inf}}\left(R_\rho\left(f\right) + \frac{8}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{4}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{2\log \frac{2}{\delta}}{m}}\right)
+\end{equation}
+
+\noindent holds because of the definition of $f_{VRM}$. For another argument, suppose we have some infimum $f^*$. We could then apply corollary 2 to find:
+\begin{equation}
+\begin{split}
+	\hat{R}_{S,\rho}\left(f^*\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{2}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{\log \frac{2}{\delta}}{2m}} \\
+	\le R_{\rho}\left(f^*\right) + \frac{8}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{4}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{2\log \frac{2}{\delta}}{m}}
+\end{split}
+\end{equation}
+
+\noindent Once again recall the definition of $f_{VRM}$ and so we know:
+
+\begin{equation}
+\begin{split}
+\hat{R}_{S,\rho}\left(f_{VRM}\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{2}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{\log \frac{2}{\delta}}{2m}} \\
+\le \hat{R}_{S,\rho}\left(f^*\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{2}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{\log \frac{2}{\delta}}{2m}}
+\end{split}
+\end{equation}
+
+\noindent Finally we can apply corollary 1 to conclude that the bound in question holds.
+
+\section{}
+\section{}
+\begin{table}[H]
+	\centering
+	\caption{Payoff Matrix}
+	\label{fig:C3}
+	\begin{tabular}{lll}
+		& A                        & B                        \\ \cline{2-3} 
+		\multicolumn{1}{l|}{A} & \multicolumn{1}{l|}{8,8} & \multicolumn{1}{l|}{9,1} \\ \cline{2-3} 
+		\multicolumn{1}{l|}{B} & \multicolumn{1}{l|}{9,1} & \multicolumn{1}{l|}{0,0} \\ \cline{2-3} 
+	\end{tabular}
+\end{table}
+\subsection{}
+The pure Nash Equilibria are $\left( A, B \right)$ and $\left( B, A \right)$.
+\subsection{}
+A mixed Nash equilibrium is 
+\subsection{}
+
+\end{document}
