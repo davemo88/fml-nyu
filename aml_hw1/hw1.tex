@@ -75,7 +75,51 @@ We then apply corollary 2 and simplify:
 \section{}
 \subsection{}
 
+First let us compare the players' regrets:
+
+\begin{equation}
+	R_{T_1} = \underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - \sum_{t=1}^{T} p_t \textbf{U} q_t
+\notag
+\end{equation}
+\begin{equation}
+	R_{T_2} = \sum_{t=1}^{T} p_t \textbf{U} q_t - \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q}
+\notag
+\end{equation}
+
+\noindent One can then do a bit of algebra to find:
+\begin{equation}
+	\underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - R_{T_1} = \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q} + R_{T_2}
+\notag
+\end{equation}
+
+\noindent Obviously, $R_{T_1} \le R_{T_2} \lor R_{T_1} \le R_{T_2}$. In the first case we have:
+	
+\begin{equation}
+	\underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - R_{T_1} \le \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q} + R_{T_1}
+\notag
+\end{equation}
+
+\noindent
+and in the second:
+
+\noindent
+\begin{equation}
+	\underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - R_{T_2} \le \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q} + R_{T_2}
+\notag
+\end{equation}
+
+\noindent
+Thus we may conclude:
+
+\begin{equation}
+	\underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - R_{T} \le \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q} + R_{T}
+\notag
+\end{equation}
+
+\noindent and so the inequality in question holds.
+
 \subsection{}
+\noindent
 First note that:
 \begin{equation}
 	\underset{q}{\text{min }}\underset{p}{\text{max }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] - \frac{R_T}{T}
