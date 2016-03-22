@@ -65,9 +65,34 @@ We then apply corollary 2 and simplify:
 \end{split}
 \end{equation}
 
-\noindent Finally we can apply corollary 1 to conclude that the bound in question holds.
+\noindent Finally we can apply corollary 1 to conclude that the bound in question holds.	
 
 \section{}
+\subsection{}
+
+\subsection{}
+First note that:
+\begin{equation}
+	\underset{q}{\text{min }}\underset{p}{\text{max }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] - \frac{R_T}{T}
+	\le
+	\underset{p}{\text{max }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q_t}{E}\left[u_1\left(\textbf{a}\right)\right] - \frac{R_T}{T}
+\end{equation}
+\noindent and:
+\begin{equation}
+	\underset{q}{\text{min }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p_t, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] + \frac{R_T}{T}
+	\le
+	\underset{p}{\text{max }}\underset{q}{\text{min }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] + \frac{R_T}{T}
+\end{equation}
+
+\noindent Applying above inequality shows:
+\begin{equation}
+	\underset{q}{\text{min }}\underset{p}{\text{max }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] - \frac{R_T}{T}
+	\le
+	\underset{p}{\text{max }}\underset{q}{\text{min }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] - \frac{R_T}{T}
+\end{equation}
+
+\noindent Now we must consider the bound on $R_T$ for RWM. Happily enough it is $O\left(\sqrt{T \log N}\right)$, $\frac{R_T}{T} = O\left(\frac{1}{\sqrt{T}}\right)$, and so $\lim\limits_{T \rightarrow \infty} \frac{R_T}{T} = 0$.
+
 \section{}
 \begin{table}[H]
 	\centering
