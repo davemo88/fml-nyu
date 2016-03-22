@@ -82,7 +82,36 @@ We then apply corollary 2 and simplify:
 \subsection{}
 The pure Nash Equilibria are $\left( A, B \right)$ and $\left( B, A \right)$.
 \subsection{}
-A mixed Nash equilibrium is 
+A mixed Nash Equilibrium is the pair of strategies
+\[\left(
+    \begin{bmatrix}
+      0.5 \\ 0.5 
+    \end{bmatrix}
+,    \begin{bmatrix}
+      0.5 \\ 0.5 
+    \end{bmatrix}\right) \]
+Because of Symmetricity it is enough to show that the row player has no incentive of deviating from the given strategy. We find the distribution $p =     \begin{bmatrix}
+      \rho \\ 1-\rho  
+    \end{bmatrix} $ 
+That maximizes his payoff:
+\begin{align*} 
+   \frac{8}{2}\rho + \frac{1}{2}\rho + (1-\rho) \frac{9}{2} + (1-\rho) \frac{0}{2} \\
+  &= \frac{9}{2}\rho + \frac{9}{2} - \frac{9}{2}\rho \\
+  &= \frac{9}{2}     
+\end{align*}
+As we can see the payoff is independent of the strategy chosen if the opponent uses the uniform strategy. Thus p constitutes a mixed Nash-Equilibrium with payoffs (4.5,4.5)
 \subsection{}
+As the game is perfectly symmetric, it suffices to show the following for the row player:
+\begin{align*}
+p(A,A)u_1(A,A) + p(A,B)u_1(A,B) & = \frac{8}{3}+ \frac{1}{3} \\ &= 3\\ &=   p(B,A)u_1(B,A) \\ &= p(B,A)u_1(B,A) + p(B,B)u_1(B,B) 
+\end{align*}                                  
+The outcome for each player will be
+\[p(A,A)u_1(A,A)+p(A,B)u_1(A,B)+p(B,A)u_1(B,A) = \frac{8}{3}+\frac{1}{3}+\frac{8}{3} = 6\]
+This is a better payoff than the payoff of 4.5 found in the previous example.
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
