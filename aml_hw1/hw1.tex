@@ -36,16 +36,19 @@
 We first apply corollary 1 to find:
 \begin{equation}
 	R(f_{VRM}) \le \hat{R}_{S,\rho}\left(f_{VRM}\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{2}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{\log \frac{2}{\delta}}{2m}}
+\notag
 \end{equation}
 We then apply corollary 2 and simplify:
 \begin{equation}
 	R(f_{VRM}) \le R_\rho\left(f_{VRM}\right) + \frac{8}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{4}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{2\log \frac{2}{\delta}}{m}}
+\notag
 \end{equation}
 
 \noindent Recall that $f_{VRM} = \underset{f \in \mathcal{F}}{\text{argmin }} \hat{R}_{S,\rho}\left(f_{VRM}\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right)$ and so the bound in question:
 
 \begin{equation}
 	R(f_{VRM}) \le \underset{f \in \mathcal{F}}{\text{inf}}\left(R_\rho\left(f\right) + \frac{8}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{4}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{2\log \frac{2}{\delta}}{m}}\right)
+\notag
 \end{equation}
 
 \noindent holds because of the definition of $f_{VRM}$. For another argument, suppose we have some infimum $f^*$. We could then apply corollary 2 to find:
@@ -54,6 +57,7 @@ We then apply corollary 2 and simplify:
 	\hat{R}_{S,\rho}\left(f^*\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{2}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{\log \frac{2}{\delta}}{2m}} \\
 	\le R_{\rho}\left(f^*\right) + \frac{8}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{4}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{2\log \frac{2}{\delta}}{m}}
 \end{split}
+\notag
 \end{equation}
 
 \noindent Once again recall the definition of $f_{VRM}$ and so we know:
@@ -63,11 +67,83 @@ We then apply corollary 2 and simplify:
 \hat{R}_{S,\rho}\left(f_{VRM}\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{2}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{\log \frac{2}{\delta}}{2m}} \\
 \le \hat{R}_{S,\rho}\left(f^*\right) + \frac{4}{\rho} \sum_{j=1}^{N} \alpha_j \mathfrak{R}_m \left( H_{k \left( j \right)} \right) + \frac{2}{\rho} \sqrt{\frac{\log p}{m}} \left[1+\sqrt{\lceil \log \left[ \frac{\rho^2 m}{\log p} \right]\rceil}\right] + \sqrt{\frac{\log \frac{2}{\delta}}{2m}}
 \end{split}
+\notag
 \end{equation}
 
-\noindent Finally we can apply corollary 1 to conclude that the bound in question holds.
+\noindent Finally we can apply corollary 1 to conclude that the bound in question holds.	
 
 \section{}
+\subsection{}
+
+First let us compare the players' regrets:
+
+\begin{equation}
+	R_{T_1} = \underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - \sum_{t=1}^{T} p_t \textbf{U} q_t
+\notag
+\end{equation}
+\begin{equation}
+	R_{T_2} = \sum_{t=1}^{T} p_t \textbf{U} q_t - \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q}
+\notag
+\end{equation}
+
+\noindent One can then do a bit of algebra to find:
+\begin{equation}
+	\underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - R_{T_1} = \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q} + R_{T_2}
+\notag
+\end{equation}
+
+\noindent Obviously, $R_{T_1} \le R_{T_2} \lor R_{T_1} \le R_{T_2}$. In the first case we have:
+	
+\begin{equation}
+	\underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - R_{T_1} \le \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q} + R_{T_1}
+\notag
+\end{equation}
+
+\noindent
+and in the second:
+
+\noindent
+\begin{equation}
+	\underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - R_{T_2} \le \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q} + R_{T_2}
+\notag
+\end{equation}
+
+\noindent
+Thus we may conclude:
+
+\begin{equation}
+	\underset{\mathsf{p}}{\text{max }} \sum_{t=1}^{T} \mathsf{p} \textbf{U} q_t - R_{T} \le \underset{\mathsf{q}}{\text{min }} \sum_{t=1}^{T} p_t \textbf{U} \mathsf{q} + R_{T}
+\notag
+\end{equation}
+
+\noindent and so the inequality in question holds.
+
+\subsection{}
+\noindent
+First note that:
+\begin{equation}
+	\underset{q}{\text{min }}\underset{p}{\text{max }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] - \frac{R_T}{T}
+	\le
+	\underset{p}{\text{max }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q_t}{E}\left[u_1\left(\textbf{a}\right)\right] - \frac{R_T}{T}
+\notag
+\end{equation}
+\noindent and:
+\begin{equation}
+	\underset{q}{\text{min }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p_t, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] + \frac{R_T}{T}
+	\le
+	\underset{p}{\text{max }}\underset{q}{\text{min }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] + \frac{R_T}{T}
+\notag
+\end{equation}
+
+\noindent Now we may apply the inequality from the previous question to see:
+\begin{equation}
+	\underset{q}{\text{min }}\underset{p}{\text{max }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] - \frac{R_T}{T}
+	\le
+	\underset{p}{\text{max }}\underset{q}{\text{min }}\frac{1}{T}\sum_{t=1}^{T}\underset{a_1 \sim p, a_2 \sim q}{E}\left[u_1\left(\textbf{a}\right)\right] + \frac{R_T}{T}
+\notag
+\end{equation}
+
+\noindent Now we must consider the bound on $R_T$ for RWM. Happily enough it is $O\left(\sqrt{T \log N}\right)$ and so $\frac{R_T}{T} = O\left(\frac{1}{\sqrt{T}}\right)$ and $\lim\limits_{T \rightarrow \infty} \frac{R_T}{T} = 0$. The other case is symmetric and so this concludes the proof.
 \section{}
 \begin{table}[H]
 	\centering
